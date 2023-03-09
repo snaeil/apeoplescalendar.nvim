@@ -5,7 +5,7 @@ local function generate_tmp_file_path()
    return path
 end
 
-local function test_service_connection()
+local function test_internet_connection()
     local cmd = "ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` > /dev/null && echo ok || echo error | grep \"ok\""
     local handle = io.popen(cmd)
     if handle ~= nil then
@@ -38,7 +38,7 @@ local function fetch_apc_events()
         file:close()
     else
         file = io.open(filename, "w")
-        if test_service_connection() == true then
+        if test_internet_connection() then
             local api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0YWhtYXhmZmNxYW5raWVudWxoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTcwNDAzOTUsImV4cCI6MTk3MjYxNjM5NX0.-YZmaNQcoQXbC0_VZYD_jNuOgVbFEu9fbpL_lRDBIH0"
             local request_url = string.format("https://stahmaxffcqankienulh.supabase.co/rest/v1/events?select=*&day=eq.%d&month=eq.%d&order=title.asc", os.date("%m"), os.date("%d") )
             local curl_command = string.format("curl -s '%s' -H \"apikey: %s\"", request_url, api_key)
@@ -79,7 +79,6 @@ end
 local function json_to_table(encoded)
     local json = require "json"
     local decoded = json.decode( encoded )
-    print(vim.inspect(decoded))
     return decoded
 end
 
@@ -107,7 +106,7 @@ end
 
 function M.today_teaser()
     local events = {}
-    if test_service_connection() then
+    if test_internet_connection() then
         events = vim.json.decode(fetch_apc_events())
     end
     local event = events[ math.random( #events ) ]
@@ -126,7 +125,7 @@ end
 
 function M.today()
     local content = "No server connection...\nPress `q` to close."
-    if test_service_connection() then
+    if test_internet_connection() then
         local fetched = fetch_apc_events()
         if fetched then
             content = table_to_rst(vim.json.decode(fetched))
