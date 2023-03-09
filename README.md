@@ -1,7 +1,5 @@
 This Neovim plugin is written in Lua and provides daily information from [apeoplescalendar.org](https://www.apeoplescalendar.org/).
 
-_**Note:** This plugin is still work in progress!_
-
 ## About
 
 From [apeoplescalendar.org](https://www.apeoplescalendar.org):
@@ -25,15 +23,22 @@ This example should Using lazy you can use this:
 }
 ```
 
+## Requirements
+
+- Linux or Mac operating system
+- Neovim 0.7+
+- Plugin [rcarriga/nvim-notify](https://github.com/rcarriga/nvim-notify)
+- curl
+
 ## Usage
 
 **`:APeoplesCalendar`**
 
-Opens a new buffer showing today's events.
+Opens a new buffer showing today's events. In normal mode it can be closed with key `q`.
 
 **`:APeoplesCalendarTeaser`**
 
-Opens a popup with one randomly picked event for today's date.
+Opens a popup with one randomly picked event for today's date. It disappears automatically after a few seconds.
 
 ## Configuration
 
@@ -59,7 +64,6 @@ With this example, the teaser should be shown every time Neovim is opened withou
 ## Roadmap
 
 - [ ] Show images, using _Kitty Graphics Protocol_ via [hologram.nvim](https://github.com/edluffy/hologram.nvim)
-- [ ] Load events daily and not every time Neovim is opened
 
 ## Contribution
 
